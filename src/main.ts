@@ -82,8 +82,13 @@ app.append(
   growthText,
 );
 
+//create list object list to hold buttons
+const upgradeButtons: HTMLButtonElement[] = [];
 upgrades.forEach((upgrade) => {
   const button = createUpgradeButton(upgrade);
+
+  upgradeButtons.push(button); //add the button to array
+
   const description = document.createElement("p");
   description.textContent = upgrade.description;
   const line = document.createElement("hr");
@@ -102,6 +107,15 @@ function update() {
   growthText.textContent = `Growth: ${growth} coins/sec`;
 
   //iterate through each upgrade value and turn upgrade green if the user can afford the upgrade
+  upgrades.forEach((upgrade, index) => {
+    const upgradebutton = upgradeButtons[index];
+    const affordable = coins >= upgrade.cost;
+
+    upgradebutton.classList.toggle(
+      "upgrade-purchasable",
+      affordable
+    );
+  });
 }
 
 function createUpgradeButton(upgrade: {
