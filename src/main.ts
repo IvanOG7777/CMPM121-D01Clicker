@@ -42,6 +42,7 @@ const upgrades = [
   {
     name: "Growth +1",
     cost: 50,
+    description: "Adds one coin per sec to idle growth",
     effect: () => {
       growth++;
       update();
@@ -50,6 +51,7 @@ const upgrades = [
   {
     name: "Growth +2",
     cost: 500,
+    description: "Adds two coins per sec to idle growth",
     effect: () => {
       growth += 2;
       update();
@@ -67,7 +69,11 @@ app.append(
 
 upgrades.forEach((upgrade) => {
   const button = createUpgradeButton(upgrade);
-  app.append(button);
+  const description = document.createElement("p");
+  description.textContent = upgrade.description;
+  const line = document.createElement("hr");
+  line.style = "border: none; border-top: 2px solid black; width: 75%";
+  app.append(line, button, description);
 });
 
 setInterval(() => {
