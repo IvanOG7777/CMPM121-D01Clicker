@@ -113,7 +113,7 @@ function update() {
 
     upgradebutton.classList.toggle(
       "upgrade-purchasable",
-      affordable
+      affordable,
     );
   });
 }
