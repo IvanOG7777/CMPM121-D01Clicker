@@ -8,13 +8,24 @@ body {
 }
 
 #app {
-  display: grid;
-  width: 33%;
-  place-items: center;
-  border-radius: 8px;
-  padding: 24px;
   background-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+#stats {
+  display: grid;
+  place-items: center;
+}
+
+#upgrades {
+  display: grid;
+  place-items: center;
+}
+
+p {
+  margin: 4px;
 }
 
 .upgrade-purchasable {

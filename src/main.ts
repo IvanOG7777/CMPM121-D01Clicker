@@ -7,13 +7,15 @@ import charmander_image from "./assets/charmander.png";
 import charmeleon_image from "./assets/charmeleon.png";
 import charizard_image from "./assets/charizard.png";
 
-const app = document.querySelector<HTMLElement>("#app")!;
+const statsDiv = document.querySelector<HTMLElement>("#stats")!;
+const upgradeDiv = document.querySelector<HTMLElement>("#upgrades")!;
 
 const heading = document.createElement("h1");
 heading.textContent = "ClickerMon";
 
 let coins = 0;
 let coinsPerClick = 1;
+let growth = 0;
 
 //upgrade counters
 let charmander_count = 0;
@@ -76,22 +78,24 @@ image.addEventListener("mouseleave", () => {
   image.style = "filter: brightness(1)";
 });
 
-const message = document.createElement("p");
+const message = document.createElement("h3");
 message.textContent = "Click the PokeBall to get coins!";
 
 const coinsText = document.createElement("p");
 coinsText.textContent = `Coins: ${coins}`;
 
-let growth = 0;
 const growthText = document.createElement("p");
 growthText.textContent = `Growth: ${growth} coins/sec`;
+
+const coinsPerClickText = document.createElement("p");
+coinsPerClickText.textContent = `Clicks: ${coinsPerClick} coins/click`;
 
 //pokemon counter displays
 //charmander counter
 const charmander_count_text = document.createElement("p");
 charmander_count_text.style.position = "absolute";
 charmander_count_text.style.left = "210px";
-charmander_count_text.style.top = "25px";
+charmander_count_text.style.top = "100px";
 charmander_count_text.style.fontSize = "75px";
 charmander_count_text.style.visibility = "hidden";
 
@@ -111,7 +115,7 @@ const upgrades = [
   },
   {
     name: "Recruit [new pokemon]",
-    cost: 500,
+    cost: 50,
     costIncreaseFactor: 1.25,
     description: "Adds two coints per sec to idle growth",
     effect: () => {
@@ -121,7 +125,7 @@ const upgrades = [
   },
   {
     name: "Upgrade PokeBall",
-    cost: 1000,
+    cost: 100,
     costIncreaseFactor: 1.5,
     description: "Add one coin per player click",
     effect: () => {
@@ -131,17 +135,22 @@ const upgrades = [
   },
 ];
 
-app.append(
+statsDiv.append(
   heading,
   image,
   message,
   coinsText,
   growthText,
+  coinsPerClickText,
   charmander,
   charmeleon,
   charizard,
   charmander_count_text,
 );
+
+const upgradesHeading = document.createElement("h2");
+upgradesHeading.textContent = "Upgrades";
+upgradeDiv.append(upgradesHeading);
 
 //create list object list to hold buttons
 const upgradeButtons: HTMLButtonElement[] = [];
@@ -154,7 +163,7 @@ upgrades.forEach((upgrade) => {
   description.textContent = upgrade.description;
   const line = document.createElement("hr");
   line.style = "border: none; border-top: 2px solid black; width: 75%";
-  app.append(line, button, description);
+  upgradeDiv.append(line, button, description);
 });
 
 //Adds coins every second
