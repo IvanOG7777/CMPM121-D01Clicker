@@ -2,6 +2,12 @@
 // even this tiny example demonstrates a separately deployed asset.
 // @deno-types="./asset-url.d.ts"
 
+//load images
+import charmander_image from "./assets/charmander.png";
+import charmeleon_image from "./assets/charmeleon.png";
+import charizard_image from "./assets/charizard.png";
+
+
 const app = document.querySelector<HTMLElement>("#app")!;
 
 const heading = document.createElement("h1");
@@ -9,6 +15,51 @@ heading.textContent = "ClickerMon";
 
 let coins = 0;
 let coinsPerClick = 1;
+
+//upgrade counters
+let charmander_count = 0;
+
+//create pokemon sprites
+  //charmander
+  const charmander = document.createElement("img");
+  charmander.src = charmander_image;
+  charmander.width = 130;
+  charmander.height = 130;
+
+  charmander.style.position = "absolute";
+  charmander.style.left = "80px";
+  charmander.style.top = "80px";
+
+  charmander.style.visibility = "hidden";
+
+  //charmeleon
+  const charmeleon = document.createElement("img");
+  charmeleon.src = charmeleon_image;
+  charmeleon.width = 180;
+  charmeleon.height = 180;
+
+  charmeleon.style.position = "absolute";
+  charmeleon.style.left = "50px";
+  charmeleon.style.top = "40px";
+
+  charmeleon.style.visibility = "hidden";
+
+  //charizard
+  const charizard = document.createElement("img");
+  charizard.src = charizard_image;
+  charizard.width = 250;
+  charizard.height = 250;
+
+  charizard.style.position = "absolute";
+  charizard.style.left = "0px";
+  charizard.style.top = "0px";
+
+  charizard.style.visibility = "hidden";
+
+
+
+
+
 
 const image = document.createElement("img");
 image.src = "https://www.serebii.net/itemdex/sprites/sv/pokeball.png";
@@ -41,29 +92,42 @@ let growth = 0;
 const growthText = document.createElement("p");
 growthText.textContent = `Growth: ${growth} coins/sec`;
 
+//pokemon counter displays
+  //charmander counter
+  const charmander_count_text = document.createElement("p");
+  charmander_count_text.style.position = "absolute";
+  charmander_count_text.style.left = "210px";
+  charmander_count_text.style.top = "25px";
+  charmander_count_text.style.fontSize = "75px";
+  charmander_count_text.style.visibility = "hidden";
+
+
 const upgrades = [
   {
-    name: "Growth +1",
+    name: "Recruit Charmander",
     cost: 10,
     costIncreaseFactor: 1.25,
     description: "Adds one coin per sec to idle growth",
     effect: () => {
+      charmander_count++; //increase the charmander counter
+      charmander.style.visibility = "visible"; //make the charmander visible on screen
+      charmander_count_text.style.visibility = "visible"; //make the charmander counter visible on the screen
       growth++;
       update();
     },
   },
   {
-    name: "Growth +2",
+    name: "Recruit [new pokemon]",
     cost: 500,
     costIncreaseFactor: 1.25,
-    description: "Adds two coins per sec to idle growth",
+    description: "Adds two coints per sec to idle growth",
     effect: () => {
       growth += 2;
       update();
     },
   },
   {
-    name: "Click +1",
+    name: "Upgrade PokeBall",
     cost: 1000,
     costIncreaseFactor: 1.5,
     description: "Add one coin per player click",
@@ -80,6 +144,10 @@ app.append(
   message,
   coinsText,
   growthText,
+  charmander,
+  charmeleon,
+  charizard,
+  charmander_count_text,
 );
 
 //create list object list to hold buttons
@@ -103,14 +171,16 @@ setInterval(() => {
 }, 1000);
 
 function update() {
+  //update text
   coinsText.textContent = `Coins: ${coins}`;
   growthText.textContent = `Growth: ${growth} coins/sec`;
+  charmander_count_text.textContent = `+${charmander_count}`;
 
   //iterate through each upgrade value and turn upgrade green if the user can afford the upgrade
   upgrades.forEach((upgrade, index) => {
     const upgradebutton = upgradeButtons[index];
     const affordable = coins >= upgrade.cost;
-
+    //change button color
     upgradebutton.classList.toggle(
       "upgrade-purchasable",
       affordable,
