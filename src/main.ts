@@ -7,7 +7,6 @@ import charmander_image from "./assets/charmander.png";
 import charmeleon_image from "./assets/charmeleon.png";
 import charizard_image from "./assets/charizard.png";
 
-
 const app = document.querySelector<HTMLElement>("#app")!;
 
 const heading = document.createElement("h1");
@@ -20,46 +19,41 @@ let coinsPerClick = 1;
 let charmander_count = 0;
 
 //create pokemon sprites
-  //charmander
-  const charmander = document.createElement("img");
-  charmander.src = charmander_image;
-  charmander.width = 130;
-  charmander.height = 130;
+//charmander
+const charmander = document.createElement("img");
+charmander.src = charmander_image;
+charmander.width = 130;
+charmander.height = 130;
 
-  charmander.style.position = "absolute";
-  charmander.style.left = "80px";
-  charmander.style.top = "80px";
+charmander.style.position = "absolute";
+charmander.style.left = "80px";
+charmander.style.top = "80px";
 
-  charmander.style.visibility = "hidden";
+charmander.style.visibility = "hidden";
 
-  //charmeleon
-  const charmeleon = document.createElement("img");
-  charmeleon.src = charmeleon_image;
-  charmeleon.width = 180;
-  charmeleon.height = 180;
+//charmeleon
+const charmeleon = document.createElement("img");
+charmeleon.src = charmeleon_image;
+charmeleon.width = 180;
+charmeleon.height = 180;
 
-  charmeleon.style.position = "absolute";
-  charmeleon.style.left = "50px";
-  charmeleon.style.top = "40px";
+charmeleon.style.position = "absolute";
+charmeleon.style.left = "50px";
+charmeleon.style.top = "40px";
 
-  charmeleon.style.visibility = "hidden";
+charmeleon.style.visibility = "hidden";
 
-  //charizard
-  const charizard = document.createElement("img");
-  charizard.src = charizard_image;
-  charizard.width = 250;
-  charizard.height = 250;
+//charizard
+const charizard = document.createElement("img");
+charizard.src = charizard_image;
+charizard.width = 250;
+charizard.height = 250;
 
-  charizard.style.position = "absolute";
-  charizard.style.left = "0px";
-  charizard.style.top = "0px";
+charizard.style.position = "absolute";
+charizard.style.left = "0px";
+charizard.style.top = "0px";
 
-  charizard.style.visibility = "hidden";
-
-
-
-
-
+charizard.style.visibility = "hidden";
 
 const image = document.createElement("img");
 image.src = "https://www.serebii.net/itemdex/sprites/sv/pokeball.png";
@@ -93,14 +87,13 @@ const growthText = document.createElement("p");
 growthText.textContent = `Growth: ${growth} coins/sec`;
 
 //pokemon counter displays
-  //charmander counter
-  const charmander_count_text = document.createElement("p");
-  charmander_count_text.style.position = "absolute";
-  charmander_count_text.style.left = "210px";
-  charmander_count_text.style.top = "25px";
-  charmander_count_text.style.fontSize = "75px";
-  charmander_count_text.style.visibility = "hidden";
-
+//charmander counter
+const charmander_count_text = document.createElement("p");
+charmander_count_text.style.position = "absolute";
+charmander_count_text.style.left = "210px";
+charmander_count_text.style.top = "25px";
+charmander_count_text.style.fontSize = "75px";
+charmander_count_text.style.visibility = "hidden";
 
 const upgrades = [
   {
