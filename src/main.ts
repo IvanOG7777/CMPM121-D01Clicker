@@ -7,12 +7,13 @@ import charmander_image from "./assets/charmander.png";
 import charmeleon_image from "./assets/charmeleon.png";
 import charizard_image from "./assets/charizard.png";
 
+//grab HTML divs
 const statsDiv = document.querySelector<HTMLElement>("#stats")!;
 const upgradeDiv = document.querySelector<HTMLElement>("#upgrades")!;
 
-const heading = document.createElement("h1");
-heading.textContent = "ClickerMon";
+const heading = createTextElement("ClickerMon", "h1");
 
+//stats
 let coins = 0;
 let coinsPerClick = 1;
 let growth = 0;
@@ -57,38 +58,33 @@ charizard.style.top = "0px";
 
 charizard.style.visibility = "hidden";
 
-const image = document.createElement("img");
-image.src = "https://www.serebii.net/itemdex/sprites/sv/pokeball.png";
-image.width = 96;
-image.height = 96;
-image.addEventListener("click", () => {
+const pokeballImage = document.createElement("img");
+pokeballImage.src = "https://www.serebii.net/itemdex/sprites/sv/pokeball.png";
+pokeballImage.width = 96;
+pokeballImage.height = 96;
+pokeballImage.addEventListener("click", () => {
   coins += coinsPerClick;
   update();
 });
-image.addEventListener("mousedown", () => {
-  image.style = "filter: brightness(0.5)";
+pokeballImage.addEventListener("mousedown", () => {
+  pokeballImage.style = "filter: brightness(0.5)";
 });
-image.addEventListener("mouseover", () => {
-  image.style = "filter: brightness(0.9)";
+pokeballImage.addEventListener("mouseover", () => {
+  pokeballImage.style = "filter: brightness(0.9)";
 });
-image.addEventListener("mouseup", () => {
-  image.style = "filter: brightness(0.9)";
+pokeballImage.addEventListener("mouseup", () => {
+  pokeballImage.style = "filter: brightness(0.9)";
 });
-image.addEventListener("mouseleave", () => {
-  image.style = "filter: brightness(1)";
+pokeballImage.addEventListener("mouseleave", () => {
+  pokeballImage.style = "filter: brightness(1)";
 });
 
-const message = document.createElement("h3");
-message.textContent = "Click the PokeBall to get coins!";
-
-const coinsText = document.createElement("p");
-coinsText.textContent = `Coins: ${coins}`;
-
-const growthText = document.createElement("p");
-growthText.textContent = `Growth: ${growth} coins/sec`;
-
-const coinsPerClickText = document.createElement("p");
-coinsPerClickText.textContent = `Clicks: ${coinsPerClick} coins/click`;
+const message = createTextElement("Click the PokeBall to get coins!");
+const coinsText = createTextElement(`Coins: ${coins}`);
+const growthText = createTextElement(`Growth: ${growth} coins/sec`);
+const coinsPerClickText = createTextElement(
+  `Clicks: ${coinsPerClick} coins/click`,
+);
 
 //pokemon counter displays
 //charmander counter
@@ -137,7 +133,7 @@ const upgrades = [
 
 statsDiv.append(
   heading,
-  image,
+  pokeballImage,
   message,
   coinsText,
   growthText,
@@ -148,8 +144,7 @@ statsDiv.append(
   charmander_count_text,
 );
 
-const upgradesHeading = document.createElement("h2");
-upgradesHeading.textContent = "Upgrades";
+const upgradesHeading = createTextElement("Upgrades", "h2");
 upgradeDiv.append(upgradesHeading);
 
 //create list object list to hold buttons
@@ -159,8 +154,7 @@ upgrades.forEach((upgrade) => {
 
   upgradeButtons.push(button); //add the button to array
 
-  const description = document.createElement("p");
-  description.textContent = upgrade.description;
+  const description = createTextElement(upgrade.description);
   const line = document.createElement("hr");
   line.style = "border: none; border-top: 2px solid black; width: 75%";
   upgradeDiv.append(line, button, description);
@@ -172,10 +166,12 @@ setInterval(() => {
   update();
 }, 1000);
 
+//updates the textContent of all stats AND button color/affordability
 function update() {
   //update text
   coinsText.textContent = `Coins: ${coins}`;
   growthText.textContent = `Growth: ${growth} coins/sec`;
+  coinsPerClickText.textContent = `Clicks: ${coinsPerClick} coins/click`;
   charmander_count_text.textContent = `+${charmander_count}`;
 
   //iterate through each upgrade value and turn upgrade green if the user can afford the upgrade
@@ -208,4 +204,14 @@ function createUpgradeButton(upgrade: {
   });
 
   return upgradeButton;
+}
+
+//DESCRIPTION:  returns an HTMLElement that holds texts containing the passed string
+//PARAMS:       text - text that will be displayed
+//              elementType - the type of HTML text element (h1,h2,...,p), defaults as p
+//RETURNS:      element - HTMLElement with 'text' as it's textContent
+function createTextElement(text: string, elementType = "p") {
+  const element = document.createElement(elementType);
+  element.textContent = text;
+  return element;
 }

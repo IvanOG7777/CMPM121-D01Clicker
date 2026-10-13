@@ -28,6 +28,12 @@ p {
   margin: 4px;
 }
 
+button {
+  background-color: rgb(220, 220, 220);
+  border-radius: 4px;
+  padding: 4px 12px;
+}
+
 .upgrade-purchasable {
-  background-color: #15E84F;
+  background-color: #9ae4ae;
 }
