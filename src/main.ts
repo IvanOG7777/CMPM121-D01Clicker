@@ -18,9 +18,6 @@ let coins = 0;
 let coinsPerClick = 1;
 let growth = 0;
 
-//upgrade counters
-let charmander_count = 0;
-
 //create pokemon sprites
 //charmander
 const charmander = document.createElement("img");
@@ -42,7 +39,7 @@ charmeleon.height = 180;
 
 charmeleon.style.position = "absolute";
 charmeleon.style.left = "50px";
-charmeleon.style.top = "40px";
+charmeleon.style.top = "250px";
 
 charmeleon.style.visibility = "hidden";
 
@@ -54,7 +51,7 @@ charizard.height = 250;
 
 charizard.style.position = "absolute";
 charizard.style.left = "0px";
-charizard.style.top = "0px";
+charizard.style.top = "450px";
 
 charizard.style.visibility = "hidden";
 
@@ -86,14 +83,79 @@ const coinsPerClickText = createTextElement(
   `Clicks: ${coinsPerClick} coins/click`,
 );
 
-//pokemon counter displays
-//charmander counter
-const charmander_count_text = document.createElement("p");
-charmander_count_text.style.position = "absolute";
-charmander_count_text.style.left = "210px";
-charmander_count_text.style.top = "100px";
-charmander_count_text.style.fontSize = "75px";
-charmander_count_text.style.visibility = "hidden";
+//Constructor for Counter Displays
+class CounterDisplay {
+  name: string;
+  count: number;
+  element: HTMLParagraphElement;
+
+  constructor(
+    name: string,
+    count: number,
+    position: string,
+    left: string,
+    top: string,
+    fontSize: string,
+    visiblity: string,
+  ) {
+    this.name = name;
+    this.count = count;
+
+    this.element = document.createElement("p");
+    this.element.style.position = position;
+    this.element.style.left = left;
+    this.element.style.top = top;
+    this.element.style.fontSize = fontSize;
+    this.element.style.visibility = visiblity;
+
+    document.body.appendChild(this.element);
+  }
+}
+
+//create list holding the pokemon counters
+const counter_displays = [
+  {
+    name: "Charmander",
+    count: 0,
+    position: "absolute",
+    left: "240px",
+    top: "100px",
+    fontSize: "75px",
+    visibility: "hidden",
+  },
+  {
+    name: "Charmeleon",
+    count: 0,
+    position: "absolute",
+    left: "240px",
+    top: "300px",
+    fontSize: "75px",
+    visibility: "hidden",
+  },
+  {
+    name: "Charizard",
+    count: 0,
+    position: "absolute",
+    left: "240px",
+    top: "500px",
+    fontSize: "75px",
+    visibility: "hidden",
+  },
+];
+
+//create counter displays
+const pokemon_counters = counter_displays.map(
+  (counter) =>
+    new CounterDisplay(
+      counter.name,
+      counter.count,
+      counter.position,
+      counter.left,
+      counter.top,
+      counter.fontSize,
+      counter.visibility,
+    ),
+);
 
 const upgrades = [
   {
@@ -102,20 +164,36 @@ const upgrades = [
     costIncreaseFactor: 1.25,
     description: "Adds one coin per sec to idle growth",
     effect: () => {
-      charmander_count++; //increase the charmander counter
+      pokemon_counters[0].count++; //increase the charmander counter
       charmander.style.visibility = "visible"; //make the charmander visible on screen
-      charmander_count_text.style.visibility = "visible"; //make the charmander counter visible on the screen
+      pokemon_counters[0].element.style.visibility = "visible"; //make the charmander counter visible on the screen
       growth++;
       update();
     },
   },
   {
-    name: "Recruit [new pokemon]",
+    name: "Recruit Charmeleon",
     cost: 50,
     costIncreaseFactor: 1.25,
     description: "Adds two coints per sec to idle growth",
     effect: () => {
+      pokemon_counters[1].count++;
+      charmeleon.style.visibility = "visible"; //make the charmeleon visible on screen
+      pokemon_counters[1].element.style.visibility = "visible"; //make the charmeleon counter visible on the screen
       growth += 2;
+      update();
+    },
+  },
+  {
+    name: "Recruit Charizard",
+    cost: 500,
+    costIncreaseFactor: 1.5,
+    description: "Adds 5 coints per sec to idle growth",
+    effect: () => {
+      pokemon_counters[2].count++;
+      charizard.style.visibility = "visible";
+      pokemon_counters[2].element.style.visibility = "visible";
+      growth += 5;
       update();
     },
   },
@@ -141,7 +219,6 @@ statsDiv.append(
   charmander,
   charmeleon,
   charizard,
-  charmander_count_text,
 );
 
 const upgradesHeading = createTextElement("Upgrades", "h2");
@@ -172,7 +249,9 @@ function update() {
   coinsText.textContent = `Coins: ${coins}`;
   growthText.textContent = `Growth: ${growth} coins/sec`;
   coinsPerClickText.textContent = `Clicks: ${coinsPerClick} coins/click`;
-  charmander_count_text.textContent = `+${charmander_count}`;
+  pokemon_counters[0].element.textContent = `+${pokemon_counters[0].count}`;
+  pokemon_counters[1].element.textContent = `+${pokemon_counters[1].count}`;
+  pokemon_counters[2].element.textContent = `+${pokemon_counters[2].count}`;
 
   //iterate through each upgrade value and turn upgrade green if the user can afford the upgrade
   upgrades.forEach((upgrade, index) => {
