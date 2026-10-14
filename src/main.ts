@@ -15,7 +15,7 @@ const heading = createTextElement("ClickerMon", "h1");
 
 //stats
 let coins = 0;
-let coinsPerClick = 1;
+let coinsPerClick = 2;
 let growth = 0;
 
 //create pokemon sprites
