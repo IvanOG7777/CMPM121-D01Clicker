@@ -20,40 +20,13 @@ let growth = 0;
 
 //create pokemon sprites
 //charmander
-const charmander = document.createElement("img");
-charmander.src = charmander_image;
-charmander.width = 130;
-charmander.height = 130;
-
-charmander.style.position = "absolute";
-charmander.style.left = "80px";
-charmander.style.top = "80px";
-
-charmander.style.visibility = "hidden";
+const charmander = createPokemonImage(charmander_image, 130, 130, 80, 80);
 
 //charmeleon
-const charmeleon = document.createElement("img");
-charmeleon.src = charmeleon_image;
-charmeleon.width = 180;
-charmeleon.height = 180;
-
-charmeleon.style.position = "absolute";
-charmeleon.style.left = "50px";
-charmeleon.style.top = "250px";
-
-charmeleon.style.visibility = "hidden";
+const charmeleon = createPokemonImage(charmeleon_image, 180, 180, 50, 250);
 
 //charizard
-const charizard = document.createElement("img");
-charizard.src = charizard_image;
-charizard.width = 250;
-charizard.height = 250;
-
-charizard.style.position = "absolute";
-charizard.style.left = "0px";
-charizard.style.top = "450px";
-
-charizard.style.visibility = "hidden";
+const charizard = createPokemonImage(charizard_image, 250, 250, 0, 450);
 
 const pokeballImage = document.createElement("img");
 pokeballImage.src = "https://www.serebii.net/itemdex/sprites/sv/pokeball.png";
@@ -162,7 +135,7 @@ const upgrades = [
     name: "Recruit Charmander",
     cost: 10,
     costIncreaseFactor: 1.25,
-    description: "Adds one coin per sec to idle growth",
+    description: "Adds one coin/sec to idle growth",
     effect: () => {
       pokemon_counters[0].count++; //increase the charmander counter
       charmander.style.visibility = "visible"; //make the charmander visible on screen
@@ -174,8 +147,8 @@ const upgrades = [
   {
     name: "Recruit Charmeleon",
     cost: 50,
-    costIncreaseFactor: 1.25,
-    description: "Adds two coints per sec to idle growth",
+    costIncreaseFactor: 1.5,
+    description: "Adds two coins/sec to idle growth",
     effect: () => {
       pokemon_counters[1].count++;
       charmeleon.style.visibility = "visible"; //make the charmeleon visible on screen
@@ -187,8 +160,8 @@ const upgrades = [
   {
     name: "Recruit Charizard",
     cost: 500,
-    costIncreaseFactor: 1.5,
-    description: "Adds 5 coints per sec to idle growth",
+    costIncreaseFactor: 2,
+    description: "Adds 5 coins/sec to idle growth",
     effect: () => {
       pokemon_counters[2].count++;
       charizard.style.visibility = "visible";
@@ -201,7 +174,7 @@ const upgrades = [
     name: "Upgrade PokeBall",
     cost: 100,
     costIncreaseFactor: 1.5,
-    description: "Add one coin per player click",
+    description: "Adds one coin per player click",
     effect: () => {
       coinsPerClick++;
       update();
@@ -249,9 +222,10 @@ function update() {
   coinsText.textContent = `Coins: ${coins}`;
   growthText.textContent = `Growth: ${growth} coins/sec`;
   coinsPerClickText.textContent = `Clicks: ${coinsPerClick} coins/click`;
-  pokemon_counters[0].element.textContent = `+${pokemon_counters[0].count}`;
-  pokemon_counters[1].element.textContent = `+${pokemon_counters[1].count}`;
-  pokemon_counters[2].element.textContent = `+${pokemon_counters[2].count}`;
+
+  pokemon_counters.forEach((counter) => {
+    counter.element.textContent = `+${counter.count}`;
+  });
 
   //iterate through each upgrade value and turn upgrade green if the user can afford the upgrade
   upgrades.forEach((upgrade, index) => {
@@ -293,4 +267,22 @@ function createTextElement(text: string, elementType = "p") {
   const element = document.createElement(elementType);
   element.textContent = text;
   return element;
+}
+
+function createPokemonImage(
+  src: string,
+  width: number,
+  height: number,
+  left: number,
+  top: number,
+) {
+  const image = document.createElement("img");
+  image.src = src;
+  image.width = width;
+  image.height = height;
+  image.style.position = "absolute";
+  image.style.left = `${left}px`;
+  image.style.top = `${top}px`;
+  image.style.visibility = "hidden";
+  return image;
 }
