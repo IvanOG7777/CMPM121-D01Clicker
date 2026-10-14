@@ -100,7 +100,7 @@ const upgrades = [
     name: "Recruit Charmander",
     cost: 10,
     costIncreaseFactor: 1.25,
-    description: "Adds one coin per sec to idle growth",
+    description: "Adds one coin/sec to idle growth",
     effect: () => {
       charmander_count++; //increase the charmander counter
       charmander.style.visibility = "visible"; //make the charmander visible on screen
@@ -110,22 +110,22 @@ const upgrades = [
     },
   },
   {
-    name: "Recruit [new pokemon]",
+    name: "Recruit Charmeleon",
     cost: 50,
-    costIncreaseFactor: 1.25,
-    description: "Adds two coints per sec to idle growth",
+    costIncreaseFactor: 1.55,
+    description: "Adds one coin/click to Clicks",
     effect: () => {
-      growth += 2;
+      coinsPerClick++;
       update();
     },
   },
   {
-    name: "Upgrade PokeBall",
-    cost: 100,
-    costIncreaseFactor: 1.5,
-    description: "Add one coin per player click",
+    name: "Recruit Charizard",
+    cost: 50,
+    costIncreaseFactor: 3,
+    description: "Adds 25% of Growth to Clicks",
     effect: () => {
-      coinsPerClick++;
+      coinsPerClick += Math.ceil(growth * 0.25);
       update();
     },
   },
